@@ -1,6 +1,16 @@
 import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import * as L from 'leaflet';
+import Map from 'ol/Map';
+import View from 'ol/View';
+import TileLayer from 'ol/layer/Tile';
+import OSM from 'ol/source/OSM';
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
+import { fromLonLat } from 'ol/proj';
+import VectorSource from 'ol/source/Vector';
+import VectorLayer from 'ol/layer/Vector';
+import Style from 'ol/style/Style';
+import Icon from 'ol/style/Icon';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +20,7 @@ import * as L from 'leaflet';
   styleUrl: './dashboard.css'
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
-  map!: L.Map; // Store the map instance
+  map!: Map; // Store the map instance
 
   levels = {
     level1: 12,
@@ -38,14 +48,21 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.map = L.map('map').setView([-37.9035, 145.0581] as L.LatLngTuple, 13);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this.map);
-
+    this.map = new Map({
+      target: 'map',
+      layers: [
+        // OpenStreetMap Tile Layer
+        new TileLayer({
+          source: new OSM(),
+        }),
+      ],
+      // Hide default attribution control
+      controls: [],
+      view: new View({
+        center: fromLonLat([145.0581, -37.9035]), // OpenLayers uses [longitude, latitude]
+        zoom: 13,
+      }),
+    });
     const locations = [
       { coords: [-37.9035, 145.0581], label: 'Melbourne' },
       { coords: [-37.912, 145.060], label: 'Nearby Place 1' },
@@ -53,12 +70,35 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       { coords: [-37.900, 145.070], label: 'Nearby Place 3' },
     ];
 
-    locations.forEach((loc) => {
-      L.marker(loc.coords as L.LatLngTuple).addTo(this.map).bindPopup(`<b>${loc.label}</b>`);
+    const features = locations.map((loc) => {
+      const marker = new Feature({
+        geometry: new Point(fromLonLat([loc.coords[1], loc.coords[0]])), // OpenLayers uses [longitude, latitude]
+      });
+      marker.set('label', loc.label);
+      return marker;
     });
 
-    // Call invalidateSize after the view has been initialized and detect changes
-    this.map.invalidateSize();
+    const vectorSource = new VectorSource({
+      features: features,
+    });
+
+    const vectorLayer = new VectorLayer({
+      source: vectorSource,
+      style: new Style({
+        image: new Icon({
+          src: 'https://openlayers.org/en/latest/examples/data/icon.png', // Replace with your marker image URL
+          scale: 0.7, // Adjust marker size
+        }),
+      }),
+    });
+
+    this.map.addLayer(vectorLayer);
+
+    locations.forEach((loc) => {
+      const marker = new Feature({
+        geometry: new Point(fromLonLat([loc.coords[1], loc.coords[0]])), // OpenLayers uses [longitude, latitude]
+      });
+    });
     this.cdRef.detectChanges(); // Manually trigger change detection
   }
 }

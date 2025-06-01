@@ -1,38 +1,41 @@
-<h1>ResQLink Disaster Management Dashboard</h1>
+<body>
+  <h1>ResQLink Disaster Management Dashboard</h1>
 
-<div class="dashboard">
-
-  <div class="card">
-    <h2>Cases based on threat levels</h2>
-    <br>
-    <ul>
-      <li>Level 1: {{ levels.level1 }}</li>
-      <li>Level 2: {{ levels.level2 }}</li>
-      <li>Level 3: {{ levels.level3 }}</li>
-    </ul>
-  </div>
-
-
-  <div class="card large-card">
-    <h2>Live Surveillance Map</h2>
-    <div id="map"></div>
-  </div>
-</div>
-
-
-<div class="stats">
-  <div class="stat-box">Number of people saved: {{ stats.saved }}</div>
-  <div class="stat-box">Number of people to rescue: {{ stats.toRescue }}</div>
-  <div class="stat-box">Number of people injured: {{ stats.injured }}</div>
-  <div class="stat-box">Number of people in emergency: {{ stats.emergency }}</div>
-</div>
-
-<div class="card">
-  <h2>Agents on Duty</h2>
-  <div class="agents">
-    <div class="agent" *ngFor="let responder of responders">
-      <img [src]="responder.image" [alt]="responder.name" />
-      <p>{{ responder.name }}</p>
+  <div class="dashboard">
+  
+    <div class="card">
+      <h2>Cases based on threat levels</h2>
+      <br>
+      <ul>
+        <li>Level 1: {{ levels.level1 }}</li>
+        <li>Level 2: {{ levels.level2 }}</li>
+        <li>Level 3: {{ levels.level3 }}</li>
+      </ul>
+    </div>
+  
+  
+    <div class="card large-card">
+      <h2>Live Surveillance Map</h2>
+      <div id="map"></div>
     </div>
   </div>
-</div>
+  
+  
+  <div class="stats">
+    <div class="stat-box">Number of people saved: {{ stats.saved }}</div>
+    <div class="stat-box">Number of people to rescue: {{ stats.toRescue }}</div>
+    <div class="stat-box">Number of people injured: {{ stats.injured }}</div>
+    <div class="stat-box">Number of people in emergency: {{ stats.emergency }}</div>
+  </div>
+  
+  <div class="card">
+    <h2>Agents on Duty</h2>
+    <div class="agents">
+      <div class="agent" *ngFor="let responder of responders">
+        <img [src]="responder.image" [alt]="responder.name" />
+        <p>{{ responder.name }}</p>
+      </div>
+    </div>
+  </div>
+</body>
+
