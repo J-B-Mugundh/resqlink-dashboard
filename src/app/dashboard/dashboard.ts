@@ -168,7 +168,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         datasets: [
           {
             label: 'Total Cases',
-            data: [5, 8, 12, 18, 25, 30, 32],
+            data: [32, 24, 18, 12, 10, 7, 2],
             borderColor: '#03a9f4',
             backgroundColor: 'rgba(3, 169, 244, 0.1)',
             tension: 0.3,
