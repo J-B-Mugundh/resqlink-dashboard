@@ -1,143 +1,146 @@
-/* === Reset and Font === */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Orbitron', sans-serif;
-}
-
-body {
-  background-color: #0f172a;
-  color: #e2e8f0;
+.dashboard-container {
   padding: 20px;
-  background-image: url('/assets/images/disaster.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-/* === Heading === */
 h1 {
   text-align: center;
-  color: #38bdf8;
-  font-size: 3rem;
-  margin-bottom: 20px;
-  text-shadow: 0 0 10px #38bdf8;
+  font-size: 2.8rem;
+  font-weight: bold;
+  background: linear-gradient(
+    270deg,
+    #ff6ec4,
+    #1fd1f9,
+    #76f7ab,
+    #f9f871,
+    #fcae61,
+    #ff758c,
+    #ff6ec4
+  );
+  background-size: 2000% 2000%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientWave 12s ease infinite;
+  margin-bottom: 1rem;
 }
 
-/* === Stats Section === */
-.stats {
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem; 
+  margin-bottom: 1.5rem;
+}
+
+.logo {
+  height: 80px;
+  width: auto;
+}
+
+
+@keyframes gradientWave {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background-color: #1e1e1e;
+  padding: 16px;
+  border-radius: 12px;
+  flex: 1;
+  min-width: 250px;
+}
+
+.first-row .threat-card {
+  flex: 1;
+  min-height: 240px;
+}
+
+.first-row .map-card {
+  flex: 3;
+  min-height: 240px;
+}
+
+.second-row .small-card {
+  flex: 1;
+  min-width: 220px;
+}
+
+#map {
+  width: 100%;
+  height: 240px;
+  border-radius: 8px;
+}
+
+video {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.stats-row {
   display: flex;
   justify-content: space-between;
+  gap: 12px;
   flex-wrap: wrap;
-  gap: 20px;
-  margin: 25px;
 }
 
 .stat-box {
-  flex: 1 1 22%;
-  background-color: #1e293b;
-  padding: 20px;
-  border-radius: 12px;
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: 10px;
   text-align: center;
-  box-shadow: inset 0 0 12px #38bdf8;
   font-weight: bold;
-  font-size: 1.1rem;
-  color: #f1f5f9;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-size: 16px;
 }
 
-/* === Dashboard Layout === */
-.dashboard {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-  gap: 35px;
+.stat-box.saved {
+  background-color: #1f6feb;
 }
 
-/* Add subtle box-shadow to the dashboard and stats sections */
-/* === Cards === */
-.card {
-  background: linear-gradient(145deg, #1e293b, #0f172a);
-  padding: 25px;
-  border-radius: 18px;
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden;
+.stat-box.rescue {
+  background-color: #f39c12;
 }
 
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 0 30px rgba(56, 189, 248, 0.4);
+.stat-box.injured {
+  background-color: #e74c3c;
 }
 
-.card h2 {
-  color: #7dd3fc;
-  margin-bottom: 15px;
-  font-size: 1.6rem;
+.stat-box.emergency {
+  background-color: #8e44ad;
 }
 
-/* Chart Canvas */
-#threatChart {
-  width: 100%;
-  height: 100px;
+canvas#threatChart {
+  height: 60% !important;
 }
 
-/* === Large Card Styles === */
-.large-card {
-  grid-column: span 3;
-  flex-shrink: 0;
+.user-list {
+  max-height: 150px;
+  overflow-y: auto;
+  padding-right: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
 }
 
-/* === Map === */
-.large-card #map {
-  width: 100%;
-  height: 400px;
-  border: 1px solid #ddd;
+.user-list::-webkit-scrollbar {
+  width: 6px;
 }
 
-/* === Agents Section === */
-.agents {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  margin-top: 15px;
-  gap: 20px;
-}
-
-.agent {
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.agent img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 2px solid #38bdf8;
-  margin-bottom: 8px;
-  box-shadow: 0 0 12px #38bdf8;
-}
-
-/* === Responsive === */
-@media (max-width: 768px) {
-  .stats {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .dashboard {
-    grid-template-columns: 1fr;
-  }
-
-  .large-card {
-    grid-column: span 1;
-  }
-
-  .agents {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  #threatChart {
-    height: 180px;
-  }
+.user-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 6px;
 }
